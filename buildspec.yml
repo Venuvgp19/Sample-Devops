@@ -1,0 +1,14 @@
+version: 0.2
+
+run-as: root
+        
+phases:
+  install:
+    run-as: root
+    on-failure: ABORT 
+    commands:
+      - yum update -y
+      - yum install docker -y
+    finally:
+      - command
+      - command
