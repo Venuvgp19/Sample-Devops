@@ -10,10 +10,19 @@ phases:
       - yum update -y
       - yum install docker -y
 
+
   pre_build:
     run-as: root
     on-failure: ABORT
     commands:
-      - docker pull tomcat:latest
-      - docker build -t Hello-world-Devops .
+      - docker pull httpd
       - docker images
+      - echo "image pull completed"
+
+  build:
+    run-as: root
+    on-failure: ABORT 
+    commands:
+      - docker build -t simpledevops:latest .
+    finally:
+      - echo "Completed Docker image build"
