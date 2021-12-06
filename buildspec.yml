@@ -15,6 +15,8 @@ phases:
     run-as: root
     on-failure: ABORT
     commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - docker pull httpd
       - docker images
       - echo "image pull completed"
@@ -23,6 +25,14 @@ phases:
     run-as: root
     on-failure: ABORT 
     commands:
-      - docker build -t simpledevops:latest .
+      - docker build -t helloworld:latest .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
     finally:
       - echo "Completed Docker image build"
+
+  post_build:
+    run-as: root
+    on-failure: CONTINUE
+    commands:
+      - echo "Docker image built and pushing to ECR"
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
