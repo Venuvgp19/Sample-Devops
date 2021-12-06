@@ -1,5 +1,3 @@
 FROM httpd:latest
 
-COPY ./index.html /var/www/html/
-
-EXPOSE 8080
+COPY ./index.html  /usr/local/apache2/htdocs/
