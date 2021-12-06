@@ -9,6 +9,11 @@ phases:
     commands:
       - yum update -y
       - yum install docker -y
-    finally:
-      - command
-      - command
+
+  pre_build:
+    run-as: root
+    on-failure: ABORT
+    commands:
+      - docker pull tomcat:latest
+      - docker build -t Hello-world-Devops .
+      - docker images
