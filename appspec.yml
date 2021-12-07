@@ -1,15 +1,11 @@
 version: 0.0
-os: linux
-files:
-  - source: index.html
-    destination: /usr/local/apache2/htdocs/
-hooks:
-  BeforeInstall:
-    - location: scripts/stop_server.sh
-      timeout: 30
-      runas: root
-  ApplicationStart:
-    - location: scripts/start_server.sh
-      timeout: 30
-      runas: root
+
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:ap-south-1:430544893156:task-definition/Devops-CICD:4"  # Specify the ARN of your task definition (arn:aws:ecs:region:account-id:task-definition/task-definition-family-name:task-definition-revision-number)
+        LoadBalancerInfo: 
+          ContainerName: "Devops-CICD" # Specify the name of your Amazon ECS application's container
+          ContainerPort: "80" # Specify the port for your container where traffic reroutes 
       
