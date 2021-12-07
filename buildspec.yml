@@ -9,7 +9,6 @@ phases:
     commands:
       - yum update -y
       - yum install docker -y
-      - service docker restart
 
   pre_build:
     run-as: root
