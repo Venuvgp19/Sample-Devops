@@ -18,7 +18,7 @@
         "EC2"
     ],
     "networkMode": "awsvpc",
-    "cpu": "1",
+    "cpu": "1 vcpu",
     "memory": "128",
     "family": "Hello-world"
 }
